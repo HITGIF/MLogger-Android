@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">MLogger</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="intro_text">"This is MLogger, Maple Leaf Wifi Logger\n\nIt's a tool that can automatically login the Maple Leaf Wifi when it is connected.\n\nHit the red button to apply changes."</string>
+    <string name="change_applied">Change Applied</string>
+
+    <string name="settings_key">SETTINGS</string>
+    <string name="url_key">URL</string>
+    <string name="un_key">UN</string>
+    <string name="pw_key">PW</string>
+    <string name="ob_key">OB</string>
+    <string name="default_url">http://172.16.1.38/webAuth/index.html</string>
+
+    <string name="maple_leaf_ssid">\"Maple Leaf\"</string>
+</resources>
