@@ -34,14 +34,6 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name=".Service.WatchingService"
-            android:enabled="true" />
-        <service
-            android:name=".Service.ProtectService"
-            android:enabled="true"
-            android:process=":ProtectService" />
-
     </application>
 
 </manifest>

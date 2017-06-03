@@ -6,7 +6,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -15,15 +14,11 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpConnectionParams;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
 import studio.carbonylgroup.mlogger.R;
-import studio.carbonylgroup.mlogger.Service.WatchingService;
-
 
 public class CustomBroadcastReceiver extends android.content.BroadcastReceiver {
 
@@ -31,15 +26,11 @@ public class CustomBroadcastReceiver extends android.content.BroadcastReceiver {
     public void onReceive(final Context context, Intent intent) {
 
         final String action = intent.getAction();
-        if (action.equals("android.intent.action.BOOT_COMPLETED"))
-            if (context.getSharedPreferences(context.getString(R.string.settings_key), Context.MODE_PRIVATE).getBoolean(context.getString(R.string.ob_key), true))
-                context.startService(new Intent(context, WatchingService.class));
-
         if (action.equals(WifiManager.NETWORK_STATE_CHANGED_ACTION))
             if (ConnectivityManager.TYPE_WIFI == ((NetworkInfo) intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO)).getType())
                 if (((WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE)).
-                        getConnectionInfo().getSSID().equals(context.getString(R.string.maple_leaf_ssid))) {
-                    final Thread thread = new Thread(new Runnable() {
+                        getConnectionInfo().getSSID().equals(context.getString(R.string.maple_leaf_ssid)))
+                    new Thread(new Runnable() {
                         @Override
                         public void run() {
                             try {
@@ -49,10 +40,7 @@ public class CustomBroadcastReceiver extends android.content.BroadcastReceiver {
                                 e.printStackTrace();
                             }
                         }
-                    });
-                    thread.start();
-                }
-
+                    }).start();
     }
 
     private String encode(String ori) {
@@ -77,13 +65,10 @@ public class CustomBroadcastReceiver extends android.content.BroadcastReceiver {
         nameValuePairs.add(new BasicNameValuePair("passwd", utils.readString(context, context.getString(R.string.pw_key))));
         nameValuePairs.add(new BasicNameValuePair("username", encode(utils.readString(context, context.getString(R.string.un_key)))));
         nameValuePairs.add(new BasicNameValuePair("pwd", utils.readString(context, context.getString(R.string.pw_key))));
-        // etc...
+
         try {
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-            HttpResponse response = httpClient.execute(httpPost);
-            BufferedReader br = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-            String r = br.readLine();
-//            while (r != null) r = br.readLine();
+            httpClient.execute(httpPost);
         } catch (Exception e) {
             e.printStackTrace();
         }
