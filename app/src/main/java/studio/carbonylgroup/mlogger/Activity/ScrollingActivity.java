@@ -60,16 +60,6 @@ public class ScrollingActivity extends AppCompatActivity {
         });
     }
 
-//    private void enableInput(boolean enable){
-//
-//        toolbar.setEnabled(enable);
-//        fab.setEnabled(enable);
-//        url_input.setEnabled(enable);
-//        username_input.setEnabled(enable);
-//        password_input.setEnabled(enable);
-//        start_on_boot_switch.setEnabled(enable);
-//    }
-
     private void startWatching() {
         startService(startIntent);
     }

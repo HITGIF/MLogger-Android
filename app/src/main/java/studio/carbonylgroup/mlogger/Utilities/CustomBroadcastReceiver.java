@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
-import android.util.Log;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -18,6 +17,7 @@ import org.apache.http.params.HttpConnectionParams;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,17 +42,27 @@ public class CustomBroadcastReceiver extends android.content.BroadcastReceiver {
                     final Thread thread = new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            try{
-                            Thread.sleep(1000);
-                            loginWifiAccount(context);
-                            } catch (Exception e){
-
+                            try {
+                                Thread.sleep(1000);
+                                loginWifiAccount(context);
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
                         }
                     });
                     thread.start();
                 }
 
+    }
+
+    private String encode(String ori) {
+
+        try {
+            return URLEncoder.encode(ori, "UTF-8");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private void loginWifiAccount(Context context) {
@@ -63,23 +73,19 @@ public class CustomBroadcastReceiver extends android.content.BroadcastReceiver {
         HttpConnectionParams.setSoTimeout(httpClient.getParams(), 10000);
         HttpPost httpPost = new HttpPost(utils.readURL(context));
         List<NameValuePair> nameValuePairs = new ArrayList<>();
-        nameValuePairs.add(new BasicNameValuePair("une", utils.readString(context, context.getString(R.string.un_key))));
+        nameValuePairs.add(new BasicNameValuePair("une", encode(utils.readString(context, context.getString(R.string.un_key)))));
         nameValuePairs.add(new BasicNameValuePair("passwd", utils.readString(context, context.getString(R.string.pw_key))));
-        nameValuePairs.add(new BasicNameValuePair("username", utils.readString(context, context.getString(R.string.un_key))));
+        nameValuePairs.add(new BasicNameValuePair("username", encode(utils.readString(context, context.getString(R.string.un_key)))));
         nameValuePairs.add(new BasicNameValuePair("pwd", utils.readString(context, context.getString(R.string.pw_key))));
         // etc...
         try {
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             HttpResponse response = httpClient.execute(httpPost);
             BufferedReader br = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-            String r=br.readLine();
-            while(r!=null){
-                Log.d("[][][", "没炸" + r);
-                r=br.readLine();
-            }
+            String r = br.readLine();
+//            while (r != null) r = br.readLine();
         } catch (Exception e) {
             e.printStackTrace();
-            Log.d("[][][", "炸了");
         }
     }
 
