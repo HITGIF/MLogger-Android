@@ -1,4 +1,4 @@
-﻿MLogger
+﻿MLogger-Android
 =======
 
 ![](app/src/main/res/drawable-xxhdpi/mlogger.png)
