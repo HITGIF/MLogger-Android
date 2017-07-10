@@ -1,9 +1,9 @@
 ﻿MLogger
 =======
 
-![](app/src/main/res/drawable-xxhdpi/MLogger.png)
+![](app/src/main/res/drawable-xxhdpi/mlogger.png)
 
-[![license](https://img.shields.io/github/license/HITGIF/mlogger.svg)]()
+[![license](https://img.shields.io/github/license/HITGIF/MLogger.svg)]()
 
 What is MLogger
 -------------------
